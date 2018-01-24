@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Reflection;
-using Baseline;
-using Baseline.Reflection;
-using StructureMap.Graph;
+using Jasper.Util;
 
 namespace Jasper.Bus.Configuration
 {

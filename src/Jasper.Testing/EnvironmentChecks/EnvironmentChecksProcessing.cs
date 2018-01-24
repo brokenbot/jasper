@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 using Baseline.Dates;
 using Jasper.EnvironmentChecks;
 using Microsoft.Extensions.DependencyInjection;
-using Shouldly;
-using StructureMap;
 using Xunit;
 
 namespace Jasper.Testing.EnvironmentChecks

@@ -4,11 +4,9 @@ using BlueMilk;
 using BlueMilk.Codegen;
 using Jasper;
 using Jasper.Configuration;
-using Jasper.Testing.Samples;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using StructureMap;
 
 namespace Jasper.Testing.Samples
 {
@@ -39,6 +37,8 @@ namespace Jasper.Testing.Samples
                 // do stuff
             }
             // ENDSAMPLE
+
+
         }
     }
 

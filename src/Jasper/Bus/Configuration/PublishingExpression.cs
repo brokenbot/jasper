@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Reflection;
-using Jasper.Bus.ErrorHandling;
-using Jasper.Bus.Runtime;
 using Jasper.Bus.Runtime.Routing;
 using Jasper.Bus.Transports.Configuration;
 using Jasper.Util;
-using StructureMap.TypeRules;
 
 namespace Jasper.Bus.Configuration
 {
@@ -61,7 +58,7 @@ namespace Jasper.Bus.Configuration
 
         public MessageTrackExpression MessagesFromAssemblyContaining<T>()
         {
-            return MessagesFromAssembly(typeof(T).GetAssembly());
+            return MessagesFromAssembly(typeof(T).Assembly);
         }
 
         public class MessageTrackExpression

@@ -12,11 +12,8 @@ using Jasper.Bus.Scheduled;
 using Jasper.Bus.Transports;
 using Jasper.Bus.Transports.Configuration;
 using Jasper.Configuration;
-using Jasper.Conneg;
 using Jasper.Http.Transport;
-using Jasper.Util;
 using Microsoft.Extensions.DependencyInjection;
-using StructureMap;
 using CapabilityGraph = Jasper.Bus.Runtime.Subscriptions.CapabilityGraph;
 
 namespace Jasper.Bus

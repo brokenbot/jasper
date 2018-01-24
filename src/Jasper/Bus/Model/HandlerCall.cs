@@ -5,6 +5,7 @@ using System.Reflection;
 using Baseline;
 using Baseline.Reflection;
 using BlueMilk.Codegen;
+using BlueMilk.Codegen.Frames;
 
 namespace Jasper.Bus.Model
 {

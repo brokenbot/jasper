@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Linq;
 using Baseline;
-using Jasper.Configuration;
+using BlueMilk;
 using Jasper.Http.Routing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using StructureMap;
 
 namespace Jasper.Http
 {
@@ -33,7 +32,7 @@ namespace Jasper.Http
             return sp => Build(sp, service);
         }
 
-        public static void Register(IContainer container, IServiceCollection services, Router router)
+        public static void Register(Container container, IServiceCollection services, Router router)
         {
             var startups = services
                 .Where(x => x.ServiceType == typeof(IStartup))
@@ -47,11 +46,11 @@ namespace Jasper.Http
             });
         }
 
-        private readonly IContainer _container;
+        private readonly Container _container;
         private readonly IStartup[] _others;
         private readonly Router _router;
 
-        public JasperStartup(IContainer container, IStartup[] others, Router router)
+        public JasperStartup(Container container, IStartup[] others, Router router)
         {
             _container = container;
             _others = others;
@@ -65,15 +64,13 @@ namespace Jasper.Http
                 startup.ConfigureServices(services);
             }
 
-            var registry = new Registry();
-            foreach (var service in services)
-            {
-                registry.Register(service);
-            }
+            var registry = new ServiceRegistry();
+            registry.AddRange(services);
 
-            _container.Configure(x => x.AddRegistry(registry));
 
-            return new StructureMapServiceProvider(_container);
+            //_container.Configure(x => x.AddRegistry(registry));
+
+            return _container;
         }
 
         public void Configure(IApplicationBuilder app)

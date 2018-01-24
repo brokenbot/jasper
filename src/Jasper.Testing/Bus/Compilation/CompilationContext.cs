@@ -1,22 +1,28 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
+using BlueMilk;
 using Jasper.Bus;
 using Jasper.Bus.Model;
 using Jasper.Bus.Runtime;
 using Jasper.Bus.Runtime.Invocation;
-using Jasper.Configuration;
-using Shouldly;
-using StructureMap;
 using Xunit;
 
 namespace Jasper.Testing.Bus.Compilation
 {
     [Collection("compilation")]
-    public abstract class CompilationContext: IDisposable
+    public abstract class CompilationContext : IDisposable
     {
+        public CompilationContext()
+        {
+            theRegistry.Handlers.DisableConventionalDiscovery();
+            _runtime = new Lazy<JasperRuntime>(() => { return JasperRuntime.For(theRegistry); });
+        }
+
+        public void Dispose()
+        {
+            if (_runtime.IsValueCreated) _runtime.Value.Dispose();
+        }
+
         private Lazy<IContainer> _container;
 
 
@@ -24,28 +30,12 @@ namespace Jasper.Testing.Bus.Compilation
 
 
         public readonly JasperRegistry theRegistry = new JasperRegistry();
-        private Lazy<JasperRuntime> _runtime;
-
-        public CompilationContext()
-        {
-            theRegistry.Handlers.DisableConventionalDiscovery();
-            _runtime = new Lazy<JasperRuntime>(() =>
-            {
-                return JasperRuntime.For(theRegistry);
-            });
-        }
-
+        private readonly Lazy<JasperRuntime> _runtime;
 
 
         public IContainer Container => _container.Value;
 
         public HandlerGraph Graph => _runtime.Value.Get<HandlerGraph>();
-
-        [Fact]
-        public void can_compile_all()
-        {
-            AllHandlersCompileSuccessfully();
-        }
 
         public void AllHandlersCompileSuccessfully()
         {
@@ -61,19 +51,17 @@ namespace Jasper.Testing.Bus.Compilation
         {
             var handler = HandlerFor<TMessage>();
             theEnvelope = new Envelope(message);
-            var context = new EnvelopeContext(null,theEnvelope, _runtime.Value.Get<IServiceBus>());
+            var context = new EnvelopeContext(null, theEnvelope, _runtime.Value.Get<IServiceBus>());
 
             await handler.Handle(context);
 
             return context;
         }
 
-        public void Dispose()
+        [Fact]
+        public void can_compile_all()
         {
-            if (_runtime.IsValueCreated)
-            {
-                _runtime.Value.Dispose();
-            }
+            AllHandlersCompileSuccessfully();
         }
     }
 }
