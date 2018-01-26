@@ -1,5 +1,7 @@
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Threading;
 using System.Threading.Tasks;
 using Baseline;
 using BlueMilk;
@@ -48,7 +50,7 @@ namespace Jasper.Bus
         {
             _graph.Compile(generation, runtime);
 
-            return runtime.Get<ServiceBusActivator>().Activate(_graph, Capabilities, runtime, _channels, _localWorker);
+            return runtime.Container.QuickBuild<ServiceBusActivator>().Activate(_graph, Capabilities, runtime, _channels, _localWorker);
         }
 
         public void Describe(JasperRuntime runtime, TextWriter writer)

@@ -17,13 +17,19 @@ namespace Jasper.Marten
     {
         public void Configure(JasperRegistry registry)
         {
+            // Override an OOTB service in Jasper
             registry.Services.AddSingleton<IPersistence, MartenBackedMessagePersistence>();
-            registry.Settings.Alter<StoreOptions>(options =>
+
+            // Jasper works *with* ASP.Net Core, even without a web server,
+            // so you can use their IHostedService model for long running tasks
+            registry.Services.AddSingleton<IHostedService, SchedulingAgent>();
+
+            // Customizes the Marten integration a little bit with
+            // some custom schema objects this extension needs
+            registry.Settings.ConfigureMarten(options =>
             {
                 options.Storage.Add<PostgresqlEnvelopeStorage>();
             });
-
-            registry.Services.AddSingleton<IHostedService, SchedulingAgent>();
         }
     }
 }

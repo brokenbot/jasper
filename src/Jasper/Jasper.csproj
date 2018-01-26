@@ -17,7 +17,7 @@
     <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="BlueMilk" Version="0.5.0" />
+    <PackageReference Include="BlueMilk" Version="0.6.0" />
     <PackageReference Include="Ben.Demystifier" Version="0.0.6" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
